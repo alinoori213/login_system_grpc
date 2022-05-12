@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+import account_pb2_grpc
+from account.services import UserService
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
 ]
+
+def grpc_handlers(server):
+    account_pb2_grpc.add_UserBaseControllerServicer_to_server(UserService.as_servicer(), server)
