@@ -1,75 +1,70 @@
-from statistics import mode
+from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager,
+                                        PermissionsMixin)
+
+from django.core.mail import send_mail
 from django.db import models
-from django.db import models
-from django.contrib.auth.models import (
-	BaseUserManager, AbstractBaseUser, AbstractUser
-)
-from django.contrib.auth.models import PermissionsMixin
-# Create your models here.
-class CustomUserManager(BaseUserManager):
-	def create_user(self, password, first_name, phone=None, last_name=None):
+from django.utils.translation import gettext_lazy as _
 
-		if not phone:
-			raise ValueError("User must have phone number")
 
-		user = self.model(
-			first_name = first_name,
-			last_name = last_name,
-			phone = phone
-		)
-		user.set_password(password)
-		user.save(using=self._db)
-		return user
+class CustomAccountManager(BaseUserManager):
 
-	def create_superuser(self, password, first_name, phone=None, last_name=None):
-        
-		user = self.create_user(
-			first_name = first_name,
-			last_name = last_name,
-			phone = phone,
-			password = password
-		)
-		user.is_admin=True
-        
-		user.save(using=self._db)
-		return user
+    def create_superuser(self, email, user_name, password, **other_fields):
 
-class CustomUser(AbstractBaseUser, PermissionsMixin):
+        other_fields.setdefault('is_staff', True)
+        other_fields.setdefault('is_superuser', True)
+        other_fields.setdefault('is_active', True)
 
-	id = models.AutoField(primary_key=True)
-	first_name = models.CharField(max_length=150)
-	last_name = models.CharField(max_length=150,null=True)
-	email = models.EmailField(null=True)
-    national_code = models.CharField(max_length=10)
-	phone = models.CharField(max_length=150,unique=True)
-	password = models.CharField(max_length=150)
-	is_active = models.BooleanField(default=True)
-	is_admin = models.BooleanField(default=False)
-	created_at = models.DateTimeField(auto_now_add=True)
-	updated_at = models.DateTimeField(auto_now=True)
-    
+        if other_fields.get('is_staff') is not True:
+            raise ValueError(
+                'Superuser must be assigned to is_staff=True.')
+        if other_fields.get('is_superuser') is not True:
+            raise ValueError(
+                'Superuser must be assigned to is_superuser=True.')
 
-	USERNAME_FIELD = 'phone'
-	REQUIRED_FIELDS = ['first_name', 'last_name']
+        return self.create_user(email, user_name, password, **other_fields)
 
-	objects = CustomUserManager()
+    def create_user(self, email, user_name, password, **other_fields):
 
-	def __str__(self):
-		return "{} {}".format(self.phone, self.first_name)
+        if not email:
+            raise ValueError(_('You must provide an email address'))
 
-	@property
-	def is_staff(self):
-		return self.is_admin
+        email = self.normalize_email(email)
+        user = self.model(email=email, user_name=user_name,
+                          **other_fields)
+        user.set_password(password)
+        user.save()
+        return user
 
-	@property
-	def is_anonymous(self):
-		return False
 
-	@property
-	def is_authenticated(self):
-		return True
+class UserBase(AbstractBaseUser, PermissionsMixin):
 
-	class Meta():
-		db_table = 'auth_user'
-		verbose_name = 'User'
-		verbose_name_plural = 'Users'
+    email = models.EmailField(_('email address'), unique=True)
+    user_name = models.CharField(max_length=150, unique=True)
+    name = models.CharField(max_length=150, blank=True)
+    phone_number = models.CharField(max_length=15, blank=True)
+    postcode = models.CharField(max_length=12, blank=True)
+    is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    objects = CustomAccountManager()
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['user_name']
+
+    class Meta:
+        verbose_name = "Accounts"
+        verbose_name_plural = "Accounts"
+
+    def email_user(self, subject, message):
+        send_mail(
+            subject,
+            message,
+            'l@1.com',
+            [self.email],
+            fail_silently=False,
+        )
+
+    def __str__(self):
+        return self.user_name
