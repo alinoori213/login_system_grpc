@@ -11,7 +11,6 @@ from django_grpc_framework import generics
 from .authenticate import IsAuthenticated
 from .models import UserBase
 from .serializers import UserProtoSerializer
-from .serializers import UserLoginSerializer
 import account_pb2
 import auth_pb2
 
@@ -35,24 +34,24 @@ def generate_token(user):
                        }, JWT_SECRET, algorithm='HS256')
 
 
-class LoginService(generics.ModelService, TokenObtainPairView):
+class LoginService(generics.ModelService):
 
-    serializer_class = UserLoginSerializer
 
-    def Login(self, request, context):
-        try:
-            from google.protobuf import message
+    def LoginUser(self, request):
 
-            email = request.email
-            password = request.password
-            user = UserBase.objects.get(email=email)
-            valid = user.check_password(password)
-            response = auth_pb2.LoginResponse()
-            if valid:
-                token = generate_token(user)
-                response.token = token
-            else:
-                response.status = grpc.StatusCode.UNAUTHENTICATED
-            return response
-        except Exception as e:
-            return grpc.StatusCode.UNAUTHENTICATED
+        email = request.email
+        print(email)
+        password = request.password
+        print(password)
+        user = UserBase.objects.get(email=email)
+        valid = user.check_password(password)
+        response = auth_pb2.LoginResponse()
+
+        if valid:
+            token = generate_token(user)
+            response.token = token
+        else:
+            response.status = grpc.StatusCode.UNAUTHENTICATED
+        return response
+
+

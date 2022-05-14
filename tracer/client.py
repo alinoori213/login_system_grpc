@@ -18,10 +18,13 @@ import auth_pb2_grpc
 #         print(user, end='')
 #
 
-with grpc.insecure_channel('localhost:50051') as channel:
-
+with grpc.insecure_channel('localhost:50053',  options=(('grpc.enable_http_proxy', 0),)) as channel:
+    stub1 = account_pb2_grpc.UserBaseControllerStub(channel)
     stub = auth_pb2_grpc.AuthenticationStub(channel)
-    request = auth_pb2.LoginRequest(email='ali.nouri213@gmail.com', password='new.admin.')
 
-    # request = auth_pb2.LoginRequest(email='ali.nouri213@gmail.com', password='new.admin.')
-    print(stub.Login(request).status)
+    request = auth_pb2.LoginRequest(email='ali.nouri213@gmail.com', password='new.admin.')
+    response = auth_pb2.LoginResponse()
+    print(response.status)
+
+
+

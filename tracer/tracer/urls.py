@@ -29,5 +29,5 @@ urlpatterns = [
 
 
 def grpc_handlers(server):
-    account_pb2_grpc.add_UserBaseControllerServicer_to_server(UserService.as_servicer(), server),
-    auth_pb2_grpc.add_AuthenticationServicer_to_server(LoginService.as_servicer(), server),
+    account_pb2_grpc.add_UserBaseControllerServicer_to_server(UserService.as_servicer(), server)
+    auth_pb2_grpc.add_AuthenticationServicer_to_server(LoginService.as_servicer(), server)
