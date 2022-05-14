@@ -14,14 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 import account_pb2_grpc
-from account.services import UserService
+import auth_pb2_grpc
+from account.services import UserService, LoginService
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('account/', include('account.urls', namespace='account')),
+    # path('api/v1/', include('core.api.urls')),
 
 ]
 
+
 def grpc_handlers(server):
-    account_pb2_grpc.add_UserBaseControllerServicer_to_server(UserService.as_servicer(), server)
+    account_pb2_grpc.add_UserBaseControllerServicer_to_server(UserService.as_servicer(), server),
+    auth_pb2_grpc.add_AuthenticationServicer_to_server(LoginService.as_servicer(), server),

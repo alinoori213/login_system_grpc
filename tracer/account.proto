@@ -13,9 +13,8 @@ service UserBaseController {
 }
 
 message UserBase {
-    string email = 1;
-    string user_name = 2;
-    string name = 3;
+    int64 id = 1;
+    string email = 2;
 }
 
 message UserBaseListRequest {
