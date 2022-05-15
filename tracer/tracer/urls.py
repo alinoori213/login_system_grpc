@@ -15,19 +15,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-import account_pb2_grpc
-import auth_pb2_grpc
-from account.services import UserService, LoginService
+from codes.views import home_view, auth_view, verify_view
+# import account_pb2_grpc
+# import auth_pb2_grpc
+# from account.services import UserService, LoginService
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('account/', include('account.urls', namespace='account')),
+    path('', home_view, name='home-view'),
+    path('login/', auth_view, name='auth-view'),
+    path('verify/', verify_view, name='verify-view')
+    # path('account/', include('account.urls', namespace='account')),
     # path('api/v1/', include('core.api.urls')),
 
 ]
 
 
-def grpc_handlers(server):
-    account_pb2_grpc.add_UserBaseControllerServicer_to_server(UserService.as_servicer(), server)
-    auth_pb2_grpc.add_AuthenticationServicer_to_server(LoginService.as_servicer(), server)
+# def grpc_handlers(server):
+#     account_pb2_grpc.add_UserBaseControllerServicer_to_server(UserService.as_servicer(), server)
+#     auth_pb2_grpc.add_AuthenticationServicer_to_server(LoginService.as_servicer(), server)

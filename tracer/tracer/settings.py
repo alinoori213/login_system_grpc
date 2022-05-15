@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'account',
     'django_grpc_framework',
     'core',
     'rest_framework',
+    'crispy_forms',
+    'users',
+    'codes',
 
 
 ]
@@ -60,7 +62,7 @@ ROOT_URLCONF = 'tracer.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -140,9 +142,11 @@ STATIC_URL = 'static/'
 TOKEN_EXPIRATION = 24 * 30
 JWT_SECRET = '604194d2-5385-4ff1-b1dd-cd75cb6fb3f3'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = 'account.UserBase'
+AUTH_USER_MODEL = 'users.CustomUser'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+LOGIN_URL= '/login'
