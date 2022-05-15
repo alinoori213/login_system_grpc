@@ -1,14 +1,15 @@
+syntax = "proto3";
 package authentication;
 
 service Authentication {
-  rpc Auth(Login) returns (UserPK);
+  rpc Authentication(Auth) returns (UserPk);
 }
 
-message LoginRequest {
+message Auth{
   string username = 1;
   string password = 2;
 }
 
 message UserPk {
-  int32 pk = 1;
+  int64 pk = 1;
 }
