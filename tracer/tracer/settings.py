@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'users',
     'codes',
+    'django_grpc',
 
 
 ]
@@ -150,3 +152,11 @@ REST_FRAMEWORK = {
 }
 
 LOGIN_URL= '/login'
+
+GRPCSERVER = {
+    'servicers': ['codes.services.grpc_hook'],  # see `grpc_hook()` below
+
+    'maximum_concurrent_rpcs': None,
+    'options': [("grpc.max_receive_message_length", 1024 * 1024 * 100)],  # optional, list of key-value pairs to configure the channel. The full list of available channel arguments: https://grpc.github.io/grpc/core/group__grpc__arg__keys.html
+
+}

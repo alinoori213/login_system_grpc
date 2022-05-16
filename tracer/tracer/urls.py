@@ -17,8 +17,9 @@ from django.contrib import admin
 from django.urls import path, include
 from codes.views import home_view, auth_view, verify_view
 # import account_pb2_grpc
-# import auth_pb2_grpc
+import auth_pb2_grpc
 # from account.services import UserService, LoginService
+# from codes.services import AuthService
 
 
 urlpatterns = [
@@ -33,5 +34,5 @@ urlpatterns = [
 
 
 # def grpc_handlers(server):
-#     account_pb2_grpc.add_UserBaseControllerServicer_to_server(UserService.as_servicer(), server)
+#     auth_pb2_grpc.add_AuthenticationServicer_to_server(AuthService.as_servicer(), server)
 #     auth_pb2_grpc.add_AuthenticationServicer_to_server(LoginService.as_servicer(), server)

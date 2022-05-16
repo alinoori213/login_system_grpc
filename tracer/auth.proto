@@ -11,5 +11,5 @@ message Auth{
 }
 
 message UserPk {
-  int64 pk = 1;
+  string message = 1;
 }
