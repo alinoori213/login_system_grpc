@@ -35,8 +35,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     username = None
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$',
-                                 message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
+    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     # phone = PhoneNumberField(max_length=14, unique=True, verbose_name='Phone Number', blank=False, help_text='Enter 10 digits phone number')
     phone = models.CharField(validators=[phone_regex], max_length=17, blank=False, verbose_name='Phone Number', unique=True)
     first_name = models.CharField(max_length=250, blank=True)
