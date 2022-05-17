@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import auth_pb2 as auth__pb2
+from proto import auth_pb2 as proto_dot_auth__pb2
 
 
 class AuthenticationStub(object):
@@ -14,17 +14,17 @@ class AuthenticationStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Authentication = channel.unary_unary(
-                '/authentication.Authentication/Authentication',
-                request_serializer=auth__pb2.Auth.SerializeToString,
-                response_deserializer=auth__pb2.UserPk.FromString,
+        self.Login = channel.unary_unary(
+                '/authentication.Authentication/Login',
+                request_serializer=proto_dot_auth__pb2.LoginRequest.SerializeToString,
+                response_deserializer=proto_dot_auth__pb2.LoginResponse.FromString,
                 )
 
 
 class AuthenticationServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def Authentication(self, request, context):
+    def Login(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -33,10 +33,10 @@ class AuthenticationServicer(object):
 
 def add_AuthenticationServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'Authentication': grpc.unary_unary_rpc_method_handler(
-                    servicer.Authentication,
-                    request_deserializer=auth__pb2.Auth.FromString,
-                    response_serializer=auth__pb2.UserPk.SerializeToString,
+            'Login': grpc.unary_unary_rpc_method_handler(
+                    servicer.Login,
+                    request_deserializer=proto_dot_auth__pb2.LoginRequest.FromString,
+                    response_serializer=proto_dot_auth__pb2.LoginResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -49,7 +49,7 @@ class Authentication(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def Authentication(request,
+    def Login(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +59,8 @@ class Authentication(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/Authentication',
-            auth__pb2.Auth.SerializeToString,
-            auth__pb2.UserPk.FromString,
+        return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/Login',
+            proto_dot_auth__pb2.LoginRequest.SerializeToString,
+            proto_dot_auth__pb2.LoginResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

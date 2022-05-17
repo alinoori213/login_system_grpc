@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from codes.views import home_view, auth_view, verify_view
+from codes.views import home_view
+from users.services import UserService, LoginService
+from proto import user_pb2_grpc, auth_pb2_grpc
 # import account_pb2_grpc
-import auth_pb2_grpc
+# import auth_pb2_grpc
 # from account.services import UserService, LoginService
 # from codes.services import AuthService
 
@@ -25,14 +27,15 @@ import auth_pb2_grpc
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home-view'),
-    path('login/', auth_view, name='auth-view'),
-    path('verify/', verify_view, name='verify-view')
+    # path('login/', auth_view, name='auth-view'),
+    # path('verify/', verify_view, name='verify-view')
     # path('account/', include('account.urls', namespace='account')),
     # path('api/v1/', include('core.api.urls')),
 
 ]
 
 
-# def grpc_handlers(server):
-#     auth_pb2_grpc.add_AuthenticationServicer_to_server(AuthService.as_servicer(), server)
-#     auth_pb2_grpc.add_AuthenticationServicer_to_server(LoginService.as_servicer(), server)
+def grpc_handlers(server):
+    user_pb2_grpc.add_CustomUserControllerServicer_to_server(UserService.as_servicer(), server)
+    auth_pb2_grpc.add_AuthenticationServicer_to_server(LoginService.as_servicer(), server)
+

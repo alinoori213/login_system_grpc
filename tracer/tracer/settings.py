@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'users',
     'codes',
     'django_grpc',
+    'phonenumber_field',
+    'ryca_django_grpc',
 
 
 ]
@@ -93,7 +95,7 @@ WSGI_APPLICATION = 'tracer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'registerserver',
+        'NAME': 'newserver',
         'USER': 'postgres',
         'PASSWORD': 'new.admin.',
         'HOST': 'localhost',
@@ -150,13 +152,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
-
+TOKEN_EXPIRATION = 24 * 30
+JWT_SECRET = '604194d2-5385-4ff1-b1dd-cd75cb6fb3f3'
 LOGIN_URL= '/login'
 
-GRPCSERVER = {
-    'servicers': ['codes.services.grpc_hook'],  # see `grpc_hook()` below
-
-    'maximum_concurrent_rpcs': None,
-    'options': [("grpc.max_receive_message_length", 1024 * 1024 * 100)],  # optional, list of key-value pairs to configure the channel. The full list of available channel arguments: https://grpc.github.io/grpc/core/group__grpc__arg__keys.html
-
-}

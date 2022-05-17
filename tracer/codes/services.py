@@ -19,8 +19,7 @@ class MYServicer(auth_pb2_grpc.AuthenticationServicer):
             request.session['pk'] = user.pk
         return response
 
-def grpc_hook(server):
-    auth_pb2_grpc.add_AuthenticationServicer_to_server(MYServicer(), server)
+
 # class AuthService(generics.ModelService):
 #
 #     queryset = CustomUser.objects.all()

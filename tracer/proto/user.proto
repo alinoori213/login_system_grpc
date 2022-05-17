@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package user;
+
+import "google/protobuf/empty.proto";
+
+service CustomUserController {
+    rpc List(CustomUserListRequest) returns (stream CustomUser) {}
+    rpc Create(CustomUser) returns (CustomUser) {}
+    rpc Retrieve(CustomUserRetrieveRequest) returns (CustomUser) {}
+    rpc Update(CustomUser) returns (CustomUser) {}
+    rpc Destroy(CustomUser) returns (google.protobuf.Empty) {}
+}
+
+message CustomUser {
+    int64 id = 1;
+    string password = 2;
+    string last_login = 3;
+    bool is_superuser = 4;
+    bool is_staff = 5;
+    bool is_active = 6;
+    string date_joined = 7;
+    string phone = 8;
+    string first_name = 9;
+    string last_name = 10;
+    string email = 11;
+    string national_code = 12;
+    string birth_date = 13;
+    int32 gender = 14;
+    string nationality = 15;
+    string notification_token = 16;
+    string os_type = 17;
+    string device_unique_id = 18;
+    string created_at = 19;
+    string updated_at = 20;
+    repeated int32 groups = 21;
+    repeated int32 user_permissions = 22;
+}
+
+message CustomUserListRequest {
+}
+
+message CustomUserRetrieveRequest {
+    int64 id = 1;
+}
