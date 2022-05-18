@@ -46,8 +46,10 @@ class LoginService(generics.ModelService, TokenObtainPairView):
                 token = generate_token(user)
                 response.status == 0
                 response.token = token
+                # self.LoginCode(request)
                 return response
             else:
+                # self.Signup(request)
                 response.status = grpc.StatusCode.UNAUTHENTICATED
 
         except Exception as e:
@@ -80,17 +82,25 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             response = auth_pb2.LoginCodeResponse()
             # serializer = CodeSerializer(code=request.code)
             # serializer.is_valid()
-            phone = request.phone
-            user = CustomUser.objects.get(phone=phone)
-            password = user.password
+            print(request)
+            token = request.token
+            token = jwt.decode(token, JWT_SECRET, algorithms='HS256')
+            code = token['user_info']['user_code']
+            print(token['user_info']['phone'])
+            # user = CustomUser.objects.get(phone=phone)
+            # print(user)
+
+            # password = user.password
             # print(get_h)
             # user1 = authenticate(phone, password)
             # print(user1)
             # print(password)
             # print(HttpRequest.META)
-            if request.code == user.code.number:
-                token = generate_token(user)
-                response.token = token
+            if request.code == str(code):
+                # message_str = 'logged in'
+
+                response.status == 0
+                return response
 
                 # login(request, token)
 
@@ -122,11 +132,14 @@ class LoginService(generics.ModelService, TokenObtainPairView):
         except Exception as e:
             return grpc.StatusCode.UNAUTHENTICATED
 
-    def SignupCode(self, request, context):
-        pass
-
-    def ResetPasswordCheck(self, request, context):
-        pass
-
-    def ResetPasswordConfirm(self, request, context):
-        pass
+    # def SignupCode(self, request, context):
+    #     try:
+    #         from  google.protobuf import  message
+    #         response = auth_pb2.SignupCodeResponse()
+    #
+    #
+    # def ResetPasswordCheck(self, request, context):
+    #     pass
+    #
+    # def ResetPasswordConfirm(self, request, context):
+    #     pass

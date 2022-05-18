@@ -33,13 +33,12 @@ message SignupResponse {
 }
 
 message LoginCodeRequest {
-  string phone = 1;
+  string token = 1;
   string code = 2;
 
 }
 
 message LoginCodeResponse {
-  string token = 1;
   int32 status = 2;
 }
 
