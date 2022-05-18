@@ -7,17 +7,17 @@ import auth_pb2_grpc
 from django_grpc_framework import generics
 from users.models import CustomUser
 
-class MYServicer(auth_pb2_grpc.AuthenticationServicer):
-
-    def Login(self, request, context):
-        request = auth_pb2.Auth(username='plumpi', password='new.admin.')
-        username = request.username
-        password = request.password
-        user = authenticate(request, username=username, password=password)
-        response = auth_pb2.Auth(request)
-        if user is not None:
-            request.session['pk'] = user.pk
-        return response
+# class MYServicer(auth_pb2_grpc.AuthenticationServicer):
+#
+#     def Login(self, request, context):
+#         request = auth_pb2.Auth(username='plumpi', password='new.admin.')
+#         username = request.username
+#         password = request.password
+#         user = authenticate(request, username=username, password=password)
+#         response = auth_pb2.Auth(request)
+#         if user is not None:
+#             request.session['pk'] = user.pk
+#         return response
 
 
 # class AuthService(generics.ModelService):

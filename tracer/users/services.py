@@ -9,7 +9,7 @@ import jwt
 from rest_framework_simplejwt.views import TokenObtainPairView
 import ryca_django_grpc.generics as generics
 from .serializers import UserProtoSerializer
-
+from django.contrib.auth import authenticate, login
 
 class UserService(generics.ModelService):
     queryset = CustomUser.objects.all().order_by('-date_joined')
@@ -40,6 +40,8 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             if valid:
                 token = generate_token(user)
                 response.token = token
+                user = authenticate(phone, password)
+
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
             return response
