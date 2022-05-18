@@ -19,9 +19,9 @@ class UserService(generics.ModelService):
 
 def generate_token(user):
     user_info = {'phone': user.phone,
-                 'email': None,
                  'is_superuser': user.is_superuser,
                  'user_id': user.id,
+                 'user_code': user.code.number
                  }
     return jwt.encode({'user_info': user_info,
                        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=TOKEN_EXPIRATION)
@@ -36,13 +36,15 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             response = auth_pb2.CheckUserResponse()
             phone = request.phone
             user = CustomUser.objects.get(phone=phone)
+            print(user.pk)
             if user:
-                token = generate_token()
+                token = generate_token(user)
+                response.status == 0
                 response.token = token
+                return response
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
 
-            return response
         except Exception as e:
             return grpc.StatusCode.UNAUTHENTICATED
 
