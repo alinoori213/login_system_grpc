@@ -1,6 +1,4 @@
 ## Django gRPC authentication service
-django login system with grpc
-
 ___
 
 #### STEP 1: Install packages
@@ -19,7 +17,6 @@ python manage.py generateproto --model users.models.CustomUser  --file proto/use
 ```python 
 python -m grpc_tools.protoc -I ./  --python_out=./ --grpc_python_out=./ ./proto/auth.proto
 python -m grpc_tools.protoc -I ./  --python_out=./ --grpc_python_out=./ ./proto/user.proto
-
 ```
 
 #### STEP 5: Run server
