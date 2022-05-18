@@ -39,6 +39,16 @@ class AuthenticationStub(object):
                 request_serializer=proto_dot_auth__pb2.CheckUserRequest.SerializeToString,
                 response_deserializer=proto_dot_auth__pb2.CheckUserResponse.FromString,
                 )
+        self.ResetPasswordCheck = channel.unary_unary(
+                '/authentication.Authentication/ResetPasswordCheck',
+                request_serializer=proto_dot_auth__pb2.ResetPasswordCheckRequest.SerializeToString,
+                response_deserializer=proto_dot_auth__pb2.ResetPasswordCheckResponse.FromString,
+                )
+        self.ResetPasswordConfirm = channel.unary_unary(
+                '/authentication.Authentication/ResetPasswordConfirm',
+                request_serializer=proto_dot_auth__pb2.ResetPasswordConfirmRequest.SerializeToString,
+                response_deserializer=proto_dot_auth__pb2.ResetPasswordConfirmResponse.FromString,
+                )
 
 
 class AuthenticationServicer(object):
@@ -74,6 +84,18 @@ class AuthenticationServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def ResetPasswordCheck(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def ResetPasswordConfirm(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AuthenticationServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -101,6 +123,16 @@ def add_AuthenticationServicer_to_server(servicer, server):
                     servicer.CheckUser,
                     request_deserializer=proto_dot_auth__pb2.CheckUserRequest.FromString,
                     response_serializer=proto_dot_auth__pb2.CheckUserResponse.SerializeToString,
+            ),
+            'ResetPasswordCheck': grpc.unary_unary_rpc_method_handler(
+                    servicer.ResetPasswordCheck,
+                    request_deserializer=proto_dot_auth__pb2.ResetPasswordCheckRequest.FromString,
+                    response_serializer=proto_dot_auth__pb2.ResetPasswordCheckResponse.SerializeToString,
+            ),
+            'ResetPasswordConfirm': grpc.unary_unary_rpc_method_handler(
+                    servicer.ResetPasswordConfirm,
+                    request_deserializer=proto_dot_auth__pb2.ResetPasswordConfirmRequest.FromString,
+                    response_serializer=proto_dot_auth__pb2.ResetPasswordConfirmResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -194,5 +226,39 @@ class Authentication(object):
         return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/CheckUser',
             proto_dot_auth__pb2.CheckUserRequest.SerializeToString,
             proto_dot_auth__pb2.CheckUserResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ResetPasswordCheck(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/ResetPasswordCheck',
+            proto_dot_auth__pb2.ResetPasswordCheckRequest.SerializeToString,
+            proto_dot_auth__pb2.ResetPasswordCheckResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def ResetPasswordConfirm(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/ResetPasswordConfirm',
+            proto_dot_auth__pb2.ResetPasswordConfirmRequest.SerializeToString,
+            proto_dot_auth__pb2.ResetPasswordConfirmResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

@@ -1,5 +1,7 @@
 import grpc
+from django.http import HttpRequest
 from django_grpc_framework.services import Service
+from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
 from proto import auth_pb2
 from tracer.settings import TOKEN_EXPIRATION, JWT_SECRET
@@ -20,6 +22,7 @@ class UserService(generics.ModelService):
 def generate_token(user):
     user_info = {'phone': user.phone,
                  'is_superuser': user.is_superuser,
+                 'email': user.email,
                  'user_id': user.id,
                  'user_code': user.code.number
                  }
@@ -29,10 +32,12 @@ def generate_token(user):
 
 
 class LoginService(generics.ModelService, TokenObtainPairView):
+    # permission_classes = (IsAuthenticated,)
 
     def CheckUser(self, request, context):
         try:
             from google.protobuf import message
+
             response = auth_pb2.CheckUserResponse()
             phone = request.phone
             user = CustomUser.objects.get(phone=phone)
@@ -70,16 +75,25 @@ class LoginService(generics.ModelService, TokenObtainPairView):
 
     def LoginCode(self, request, context):
         try:
+
             from google.protobuf import message
             response = auth_pb2.LoginCodeResponse()
-            serializer = CodeSerializer(code=request.code)
-            serializer.is_valid()
+            # serializer = CodeSerializer(code=request.code)
+            # serializer.is_valid()
             phone = request.phone
             user = CustomUser.objects.get(phone=phone)
-            if request.code == user.code:
+            password = user.password
+            # print(get_h)
+            # user1 = authenticate(phone, password)
+            # print(user1)
+            # print(password)
+            # print(HttpRequest.META)
+            if request.code == user.code.number:
                 token = generate_token(user)
                 response.token = token
-                # user = authenticate(phone, password)
+
+                # login(request, token)
+
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
             print(response.status)
@@ -88,9 +102,11 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             return grpc.StatusCode.UNAUTHENTICATED
 
     def Signup(self, request, context):
+
+        #add password serializer to hash password
         try:
             from google.protobuf import message
-            response = auth_pb2.SingupRespnse()
+            response = auth_pb2.SignupResponse()
             phone = request.phone
             print(phone)
             if request.password == request.password2:
@@ -106,3 +122,11 @@ class LoginService(generics.ModelService, TokenObtainPairView):
         except Exception as e:
             return grpc.StatusCode.UNAUTHENTICATED
 
+    def SignupCode(self, request, context):
+        pass
+
+    def ResetPasswordCheck(self, request, context):
+        pass
+
+    def ResetPasswordConfirm(self, request, context):
+        pass

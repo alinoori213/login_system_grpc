@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10proto/auth.proto\x12\x0e\x61uthentication\"/\n\x0cLoginRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\".\n\rLoginResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"C\n\rSignupRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x11\n\tpassword2\x18\x03 \x01(\t\"/\n\x0eSignupResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"/\n\x10LoginCodeRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"2\n\x11LoginCodeResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"!\n\x10\x43heckUserRequest\x12\r\n\x05phone\x18\x01 \x01(\t\"2\n\x11\x43heckUserResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"0\n\x11SignupCodeRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"3\n\x12SignupCodeResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\x32\x98\x03\n\x0e\x41uthentication\x12\x44\n\x05Login\x12\x1c.authentication.LoginRequest\x1a\x1d.authentication.LoginResponse\x12G\n\x06Signup\x12\x1d.authentication.SignupRequest\x1a\x1e.authentication.SignupResponse\x12P\n\tLoginCode\x12 .authentication.LoginCodeRequest\x1a!.authentication.LoginCodeResponse\x12S\n\nSignupCode\x12!.authentication.SignupCodeRequest\x1a\".authentication.SignupCodeResponse\x12P\n\tCheckUser\x12 .authentication.CheckUserRequest\x1a!.authentication.CheckUserResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10proto/auth.proto\x12\x0e\x61uthentication\"/\n\x0cLoginRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\".\n\rLoginResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"C\n\rSignupRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x11\n\tpassword2\x18\x03 \x01(\t\"/\n\x0eSignupResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"/\n\x10LoginCodeRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"2\n\x11LoginCodeResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"!\n\x10\x43heckUserRequest\x12\r\n\x05phone\x18\x01 \x01(\t\"2\n\x11\x43heckUserResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"0\n\x11SignupCodeRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"3\n\x12SignupCodeResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"*\n\x19ResetPasswordCheckRequest\x12\r\n\x05phone\x18\x01 \x01(\t\"J\n\x1aResetPasswordCheckResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\r\n\x05\x65mail\x18\x02 \x01(\t\x12\x0e\n\x06status\x18\x03 \x01(\x05\",\n\x1bResetPasswordConfirmRequest\x12\r\n\x05token\x18\x01 \x01(\t\"?\n\x1cResetPasswordConfirmResponse\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\t2\xf8\x04\n\x0e\x41uthentication\x12\x44\n\x05Login\x12\x1c.authentication.LoginRequest\x1a\x1d.authentication.LoginResponse\x12G\n\x06Signup\x12\x1d.authentication.SignupRequest\x1a\x1e.authentication.SignupResponse\x12P\n\tLoginCode\x12 .authentication.LoginCodeRequest\x1a!.authentication.LoginCodeResponse\x12S\n\nSignupCode\x12!.authentication.SignupCodeRequest\x1a\".authentication.SignupCodeResponse\x12P\n\tCheckUser\x12 .authentication.CheckUserRequest\x1a!.authentication.CheckUserResponse\x12k\n\x12ResetPasswordCheck\x12).authentication.ResetPasswordCheckRequest\x1a*.authentication.ResetPasswordCheckResponse\x12q\n\x14ResetPasswordConfirm\x12+.authentication.ResetPasswordConfirmRequest\x1a,.authentication.ResetPasswordConfirmResponseb\x06proto3')
 
 
 
@@ -28,6 +28,10 @@ _CHECKUSERREQUEST = DESCRIPTOR.message_types_by_name['CheckUserRequest']
 _CHECKUSERRESPONSE = DESCRIPTOR.message_types_by_name['CheckUserResponse']
 _SIGNUPCODEREQUEST = DESCRIPTOR.message_types_by_name['SignupCodeRequest']
 _SIGNUPCODERESPONSE = DESCRIPTOR.message_types_by_name['SignupCodeResponse']
+_RESETPASSWORDCHECKREQUEST = DESCRIPTOR.message_types_by_name['ResetPasswordCheckRequest']
+_RESETPASSWORDCHECKRESPONSE = DESCRIPTOR.message_types_by_name['ResetPasswordCheckResponse']
+_RESETPASSWORDCONFIRMREQUEST = DESCRIPTOR.message_types_by_name['ResetPasswordConfirmRequest']
+_RESETPASSWORDCONFIRMRESPONSE = DESCRIPTOR.message_types_by_name['ResetPasswordConfirmResponse']
 LoginRequest = _reflection.GeneratedProtocolMessageType('LoginRequest', (_message.Message,), {
   'DESCRIPTOR' : _LOGINREQUEST,
   '__module__' : 'proto.auth_pb2'
@@ -98,6 +102,34 @@ SignupCodeResponse = _reflection.GeneratedProtocolMessageType('SignupCodeRespons
   })
 _sym_db.RegisterMessage(SignupCodeResponse)
 
+ResetPasswordCheckRequest = _reflection.GeneratedProtocolMessageType('ResetPasswordCheckRequest', (_message.Message,), {
+  'DESCRIPTOR' : _RESETPASSWORDCHECKREQUEST,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.ResetPasswordCheckRequest)
+  })
+_sym_db.RegisterMessage(ResetPasswordCheckRequest)
+
+ResetPasswordCheckResponse = _reflection.GeneratedProtocolMessageType('ResetPasswordCheckResponse', (_message.Message,), {
+  'DESCRIPTOR' : _RESETPASSWORDCHECKRESPONSE,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.ResetPasswordCheckResponse)
+  })
+_sym_db.RegisterMessage(ResetPasswordCheckResponse)
+
+ResetPasswordConfirmRequest = _reflection.GeneratedProtocolMessageType('ResetPasswordConfirmRequest', (_message.Message,), {
+  'DESCRIPTOR' : _RESETPASSWORDCONFIRMREQUEST,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.ResetPasswordConfirmRequest)
+  })
+_sym_db.RegisterMessage(ResetPasswordConfirmRequest)
+
+ResetPasswordConfirmResponse = _reflection.GeneratedProtocolMessageType('ResetPasswordConfirmResponse', (_message.Message,), {
+  'DESCRIPTOR' : _RESETPASSWORDCONFIRMRESPONSE,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.ResetPasswordConfirmResponse)
+  })
+_sym_db.RegisterMessage(ResetPasswordConfirmResponse)
+
 _AUTHENTICATION = DESCRIPTOR.services_by_name['Authentication']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
@@ -122,6 +154,14 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _SIGNUPCODEREQUEST._serialized_end=487
   _SIGNUPCODERESPONSE._serialized_start=489
   _SIGNUPCODERESPONSE._serialized_end=540
-  _AUTHENTICATION._serialized_start=543
-  _AUTHENTICATION._serialized_end=951
+  _RESETPASSWORDCHECKREQUEST._serialized_start=542
+  _RESETPASSWORDCHECKREQUEST._serialized_end=584
+  _RESETPASSWORDCHECKRESPONSE._serialized_start=586
+  _RESETPASSWORDCHECKRESPONSE._serialized_end=660
+  _RESETPASSWORDCONFIRMREQUEST._serialized_start=662
+  _RESETPASSWORDCONFIRMREQUEST._serialized_end=706
+  _RESETPASSWORDCONFIRMRESPONSE._serialized_start=708
+  _RESETPASSWORDCONFIRMRESPONSE._serialized_end=771
+  _AUTHENTICATION._serialized_start=774
+  _AUTHENTICATION._serialized_end=1406
 # @@protoc_insertion_point(module_scope)
