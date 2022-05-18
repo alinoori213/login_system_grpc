@@ -3,6 +3,11 @@ package authentication;
 
 service Authentication {
   rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Signup(SignupRequest) returns (SignupResponse);
+  rpc LoginCode(LoginCodeRequest) returns (LoginCodeResponse);
+  rpc SignupCode(SignupCodeRequest) returns (SignupCodeResponse);
+  rpc CheckUser(CheckUserRequest) returns (CheckUserResponse);
+
 }
 
 message LoginRequest {
@@ -11,6 +16,49 @@ message LoginRequest {
 }
 
 message LoginResponse {
+  string token = 1;
+  int32 status = 2;
+}
+
+message SignupRequest {
+  string phone = 1;
+  string password = 2;
+  string password2 = 3;
+}
+
+message SignupResponse {
+  string token = 1;
+  int32 status = 2;
+}
+
+message LoginCodeRequest {
+  string phone = 1;
+  string code = 2;
+
+}
+
+message LoginCodeResponse {
+  string token = 1;
+  int32 status = 2;
+}
+
+message CheckUserRequest {
+  string phone = 1;
+
+}
+
+message CheckUserResponse {
+  string token = 1;
+  int32 status = 2;
+}
+
+message SignupCodeRequest {
+  string phone = 1;
+  string code = 2;
+
+}
+
+message SignupCodeResponse {
   string token = 1;
   int32 status = 2;
 }

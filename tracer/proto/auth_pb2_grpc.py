@@ -19,12 +19,56 @@ class AuthenticationStub(object):
                 request_serializer=proto_dot_auth__pb2.LoginRequest.SerializeToString,
                 response_deserializer=proto_dot_auth__pb2.LoginResponse.FromString,
                 )
+        self.Signup = channel.unary_unary(
+                '/authentication.Authentication/Signup',
+                request_serializer=proto_dot_auth__pb2.SignupRequest.SerializeToString,
+                response_deserializer=proto_dot_auth__pb2.SignupResponse.FromString,
+                )
+        self.LoginCode = channel.unary_unary(
+                '/authentication.Authentication/LoginCode',
+                request_serializer=proto_dot_auth__pb2.LoginCodeRequest.SerializeToString,
+                response_deserializer=proto_dot_auth__pb2.LoginCodeResponse.FromString,
+                )
+        self.SignupCode = channel.unary_unary(
+                '/authentication.Authentication/SignupCode',
+                request_serializer=proto_dot_auth__pb2.SignupCodeRequest.SerializeToString,
+                response_deserializer=proto_dot_auth__pb2.SignupCodeResponse.FromString,
+                )
+        self.CheckUser = channel.unary_unary(
+                '/authentication.Authentication/CheckUser',
+                request_serializer=proto_dot_auth__pb2.CheckUserRequest.SerializeToString,
+                response_deserializer=proto_dot_auth__pb2.CheckUserResponse.FromString,
+                )
 
 
 class AuthenticationServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def Login(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def Signup(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def LoginCode(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def SignupCode(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CheckUser(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -37,6 +81,26 @@ def add_AuthenticationServicer_to_server(servicer, server):
                     servicer.Login,
                     request_deserializer=proto_dot_auth__pb2.LoginRequest.FromString,
                     response_serializer=proto_dot_auth__pb2.LoginResponse.SerializeToString,
+            ),
+            'Signup': grpc.unary_unary_rpc_method_handler(
+                    servicer.Signup,
+                    request_deserializer=proto_dot_auth__pb2.SignupRequest.FromString,
+                    response_serializer=proto_dot_auth__pb2.SignupResponse.SerializeToString,
+            ),
+            'LoginCode': grpc.unary_unary_rpc_method_handler(
+                    servicer.LoginCode,
+                    request_deserializer=proto_dot_auth__pb2.LoginCodeRequest.FromString,
+                    response_serializer=proto_dot_auth__pb2.LoginCodeResponse.SerializeToString,
+            ),
+            'SignupCode': grpc.unary_unary_rpc_method_handler(
+                    servicer.SignupCode,
+                    request_deserializer=proto_dot_auth__pb2.SignupCodeRequest.FromString,
+                    response_serializer=proto_dot_auth__pb2.SignupCodeResponse.SerializeToString,
+            ),
+            'CheckUser': grpc.unary_unary_rpc_method_handler(
+                    servicer.CheckUser,
+                    request_deserializer=proto_dot_auth__pb2.CheckUserRequest.FromString,
+                    response_serializer=proto_dot_auth__pb2.CheckUserResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -62,5 +126,73 @@ class Authentication(object):
         return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/Login',
             proto_dot_auth__pb2.LoginRequest.SerializeToString,
             proto_dot_auth__pb2.LoginResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def Signup(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/Signup',
+            proto_dot_auth__pb2.SignupRequest.SerializeToString,
+            proto_dot_auth__pb2.SignupResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def LoginCode(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/LoginCode',
+            proto_dot_auth__pb2.LoginCodeRequest.SerializeToString,
+            proto_dot_auth__pb2.LoginCodeResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def SignupCode(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/SignupCode',
+            proto_dot_auth__pb2.SignupCodeRequest.SerializeToString,
+            proto_dot_auth__pb2.SignupCodeResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def CheckUser(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/authentication.Authentication/CheckUser',
+            proto_dot_auth__pb2.CheckUserRequest.SerializeToString,
+            proto_dot_auth__pb2.CheckUserResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

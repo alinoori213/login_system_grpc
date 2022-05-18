@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'users',
     'codes',
     'django_grpc',
-    'phonenumber_field',
     'ryca_django_grpc',
 
 

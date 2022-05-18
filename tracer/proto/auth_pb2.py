@@ -14,12 +14,20 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10proto/auth.proto\x12\x0e\x61uthentication\"/\n\x0cLoginRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\".\n\rLoginResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\x32V\n\x0e\x41uthentication\x12\x44\n\x05Login\x12\x1c.authentication.LoginRequest\x1a\x1d.authentication.LoginResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10proto/auth.proto\x12\x0e\x61uthentication\"/\n\x0cLoginRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\".\n\rLoginResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"C\n\rSignupRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\x12\x11\n\tpassword2\x18\x03 \x01(\t\"/\n\x0eSignupResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"/\n\x10LoginCodeRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"2\n\x11LoginCodeResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"!\n\x10\x43heckUserRequest\x12\r\n\x05phone\x18\x01 \x01(\t\"2\n\x11\x43heckUserResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\"0\n\x11SignupCodeRequest\x12\r\n\x05phone\x18\x01 \x01(\t\x12\x0c\n\x04\x63ode\x18\x02 \x01(\t\"3\n\x12SignupCodeResponse\x12\r\n\x05token\x18\x01 \x01(\t\x12\x0e\n\x06status\x18\x02 \x01(\x05\x32\x98\x03\n\x0e\x41uthentication\x12\x44\n\x05Login\x12\x1c.authentication.LoginRequest\x1a\x1d.authentication.LoginResponse\x12G\n\x06Signup\x12\x1d.authentication.SignupRequest\x1a\x1e.authentication.SignupResponse\x12P\n\tLoginCode\x12 .authentication.LoginCodeRequest\x1a!.authentication.LoginCodeResponse\x12S\n\nSignupCode\x12!.authentication.SignupCodeRequest\x1a\".authentication.SignupCodeResponse\x12P\n\tCheckUser\x12 .authentication.CheckUserRequest\x1a!.authentication.CheckUserResponseb\x06proto3')
 
 
 
 _LOGINREQUEST = DESCRIPTOR.message_types_by_name['LoginRequest']
 _LOGINRESPONSE = DESCRIPTOR.message_types_by_name['LoginResponse']
+_SIGNUPREQUEST = DESCRIPTOR.message_types_by_name['SignupRequest']
+_SIGNUPRESPONSE = DESCRIPTOR.message_types_by_name['SignupResponse']
+_LOGINCODEREQUEST = DESCRIPTOR.message_types_by_name['LoginCodeRequest']
+_LOGINCODERESPONSE = DESCRIPTOR.message_types_by_name['LoginCodeResponse']
+_CHECKUSERREQUEST = DESCRIPTOR.message_types_by_name['CheckUserRequest']
+_CHECKUSERRESPONSE = DESCRIPTOR.message_types_by_name['CheckUserResponse']
+_SIGNUPCODEREQUEST = DESCRIPTOR.message_types_by_name['SignupCodeRequest']
+_SIGNUPCODERESPONSE = DESCRIPTOR.message_types_by_name['SignupCodeResponse']
 LoginRequest = _reflection.GeneratedProtocolMessageType('LoginRequest', (_message.Message,), {
   'DESCRIPTOR' : _LOGINREQUEST,
   '__module__' : 'proto.auth_pb2'
@@ -34,6 +42,62 @@ LoginResponse = _reflection.GeneratedProtocolMessageType('LoginResponse', (_mess
   })
 _sym_db.RegisterMessage(LoginResponse)
 
+SignupRequest = _reflection.GeneratedProtocolMessageType('SignupRequest', (_message.Message,), {
+  'DESCRIPTOR' : _SIGNUPREQUEST,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.SignupRequest)
+  })
+_sym_db.RegisterMessage(SignupRequest)
+
+SignupResponse = _reflection.GeneratedProtocolMessageType('SignupResponse', (_message.Message,), {
+  'DESCRIPTOR' : _SIGNUPRESPONSE,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.SignupResponse)
+  })
+_sym_db.RegisterMessage(SignupResponse)
+
+LoginCodeRequest = _reflection.GeneratedProtocolMessageType('LoginCodeRequest', (_message.Message,), {
+  'DESCRIPTOR' : _LOGINCODEREQUEST,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.LoginCodeRequest)
+  })
+_sym_db.RegisterMessage(LoginCodeRequest)
+
+LoginCodeResponse = _reflection.GeneratedProtocolMessageType('LoginCodeResponse', (_message.Message,), {
+  'DESCRIPTOR' : _LOGINCODERESPONSE,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.LoginCodeResponse)
+  })
+_sym_db.RegisterMessage(LoginCodeResponse)
+
+CheckUserRequest = _reflection.GeneratedProtocolMessageType('CheckUserRequest', (_message.Message,), {
+  'DESCRIPTOR' : _CHECKUSERREQUEST,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.CheckUserRequest)
+  })
+_sym_db.RegisterMessage(CheckUserRequest)
+
+CheckUserResponse = _reflection.GeneratedProtocolMessageType('CheckUserResponse', (_message.Message,), {
+  'DESCRIPTOR' : _CHECKUSERRESPONSE,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.CheckUserResponse)
+  })
+_sym_db.RegisterMessage(CheckUserResponse)
+
+SignupCodeRequest = _reflection.GeneratedProtocolMessageType('SignupCodeRequest', (_message.Message,), {
+  'DESCRIPTOR' : _SIGNUPCODEREQUEST,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.SignupCodeRequest)
+  })
+_sym_db.RegisterMessage(SignupCodeRequest)
+
+SignupCodeResponse = _reflection.GeneratedProtocolMessageType('SignupCodeResponse', (_message.Message,), {
+  'DESCRIPTOR' : _SIGNUPCODERESPONSE,
+  '__module__' : 'proto.auth_pb2'
+  # @@protoc_insertion_point(class_scope:authentication.SignupCodeResponse)
+  })
+_sym_db.RegisterMessage(SignupCodeResponse)
+
 _AUTHENTICATION = DESCRIPTOR.services_by_name['Authentication']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
@@ -42,6 +106,22 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _LOGINREQUEST._serialized_end=83
   _LOGINRESPONSE._serialized_start=85
   _LOGINRESPONSE._serialized_end=131
-  _AUTHENTICATION._serialized_start=133
-  _AUTHENTICATION._serialized_end=219
+  _SIGNUPREQUEST._serialized_start=133
+  _SIGNUPREQUEST._serialized_end=200
+  _SIGNUPRESPONSE._serialized_start=202
+  _SIGNUPRESPONSE._serialized_end=249
+  _LOGINCODEREQUEST._serialized_start=251
+  _LOGINCODEREQUEST._serialized_end=298
+  _LOGINCODERESPONSE._serialized_start=300
+  _LOGINCODERESPONSE._serialized_end=350
+  _CHECKUSERREQUEST._serialized_start=352
+  _CHECKUSERREQUEST._serialized_end=385
+  _CHECKUSERRESPONSE._serialized_start=387
+  _CHECKUSERRESPONSE._serialized_end=437
+  _SIGNUPCODEREQUEST._serialized_start=439
+  _SIGNUPCODEREQUEST._serialized_end=487
+  _SIGNUPCODERESPONSE._serialized_start=489
+  _SIGNUPCODERESPONSE._serialized_end=540
+  _AUTHENTICATION._serialized_start=543
+  _AUTHENTICATION._serialized_end=951
 # @@protoc_insertion_point(module_scope)
