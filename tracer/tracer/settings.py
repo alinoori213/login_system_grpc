@@ -153,5 +153,6 @@ REST_FRAMEWORK = {
 }
 TOKEN_EXPIRATION = 24 * 30
 JWT_SECRET = '604194d2-5385-4ff1-b1dd-cd75cb6fb3f3'
-LOGIN_URL= '/login'
+LOGIN_URL = '/login'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

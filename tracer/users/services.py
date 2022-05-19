@@ -3,6 +3,7 @@ from django.http import HttpRequest
 from django_grpc_framework.services import Service
 from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser
+from django.conf import settings
 from proto import auth_pb2
 from tracer.settings import TOKEN_EXPIRATION, JWT_SECRET
 import datetime
@@ -10,13 +11,19 @@ import grpc
 import jwt
 from rest_framework_simplejwt.views import TokenObtainPairView
 import ryca_django_grpc.generics as generics
+from django.core.mail import send_mail
 from .serializers import UserProtoSerializer, RegisterSerializer, RegistrationSerializer, CodeSerializer
 from django.contrib.auth import authenticate, login
 
 
-class UserService(generics.ModelService):
-    queryset = CustomUser.objects.all().order_by('-date_joined')
-    serializer_class = UserProtoSerializer
+def send_forgot_mail(phone):
+    user = CustomUser.objects.get(phone=phone)
+    code = user.code
+    subject = 'confirmation code'
+    message = f' please confirm the code \n your code is : {code} '
+    email_from = 'tracer@gmail.com'
+    email = [user.email]
+    send_mail(subject, message, email_from, email)
 
 
 def generate_token(user):
@@ -31,11 +38,15 @@ def generate_token(user):
                        }, JWT_SECRET, algorithm='HS256')
 
 
+class UserService(generics.ModelService):
+    queryset = CustomUser.objects.all().order_by('-date_joined')
+    serializer_class = UserProtoSerializer
+
+
 class LoginService(generics.ModelService, TokenObtainPairView):
     # permission_classes = (IsAuthenticated,)
 
     def CheckUser(self, request, context):
-
 
             response = auth_pb2.CheckUserResponse()
             phone = request.phone
@@ -43,7 +54,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             try:
                 user = CustomUser.objects.get(phone=phone)
                 token = generate_token(user)
-                # CustomUser.objects.create(phone='+989123456789', password='')
                 response.status == 0
                 response.token = token
 
@@ -96,7 +106,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             if request.code == str(code):
                 response.status == 0
                 return response
-                # login(request, token)
 
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
@@ -139,7 +148,30 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             return response
 
     def ResetPasswordCheck(self, request, context):
-        pass
+        response = auth_pb2.ResetPasswordCheckResponse()
+        phone = request.phone
+        send_forgot_mail(phone)
+        user = CustomUser.objects.get(phone=phone)
+        token = generate_token(user)
+        email = user.email
+        reformed_email = email[0] + '******@' + email.split("@", 1)[1]
+        print(reformed_email)
+        message = 'code sent'
+        response.message = message
+        response.email = reformed_email
+        response.token = token
+
+        return response
 
     def ResetPasswordConfirm(self, request, context):
-        pass
+        response = auth_pb2.ResetPasswordConfirmResponse()
+        code = request.code
+        token = request.token
+        token = jwt.decode(token, JWT_SECRET, algorithms='HS256')
+        user_code = str(token['user_info']['user_code'])
+        if code == user_code:
+            return response
+        else:
+            response.status = grpc.StatusCode.UNAUTHENTICATED
+
+        return response
