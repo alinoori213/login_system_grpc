@@ -88,7 +88,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
                 token = generate_token(user)
                 response.status == 0
                 generate_sms_code(user)
-                print(generate_sms_code(user))
                 send_sms(phone)
                 response.token = token
                 return response
@@ -117,7 +116,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
                 response.token = token
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
-            print(response.status)
             return response
         except Exception as e:
             return grpc.StatusCode.UNAUTHENTICATED
@@ -129,18 +127,14 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             response = auth_pb2.LoginCodeResponse()
             # serializer = CodeSerializer(code=request.code)
             # serializer.is_valid()
-            print(request)
             token = request.token
             token = jwt.decode(token, JWT_SECRET, algorithms='HS256')
             code = str(token['user_info']['user_code'])
-            print(code)
-            print(token['user_info']['phone'])
             if request.code == str(code):
                 response.status == 0
                 return response
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
-            print(response.status)
             return response
         except Exception as e:
             return grpc.StatusCode.UNAUTHENTICATED
@@ -152,11 +146,9 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             from google.protobuf import message
             response = auth_pb2.SignupResponse()
             phone = request.phone
-            print(phone)
             if request.password == request.password2:
                 password = request.password
                 user = CustomUser.objects.create(phone=phone, password=password)
-                print(user)
                 token = generate_token(user)
                 response.token = token
             else:
@@ -184,7 +176,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
         token = generate_token(user)
         email = user.email
         reformed_email = email[0] + '******@' + email.split("@", 1)[1]
-        print(reformed_email)
         message = 'code sent'
         response.message = message
         response.email = reformed_email
