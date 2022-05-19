@@ -14,6 +14,8 @@ import ryca_django_grpc.generics as generics
 from django.core.mail import send_mail
 from .serializers import UserProtoSerializer, RegisterSerializer, RegistrationSerializer, CodeSerializer
 from django.contrib.auth import authenticate, login
+import os
+from twilio.rest import Client
 
 
 def send_forgot_mail(phone):
@@ -37,6 +39,21 @@ def generate_token(user):
                        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=TOKEN_EXPIRATION)
                        }, JWT_SECRET, algorithm='HS256')
 
+def send_sms(phone):
+    user = CustomUser.objects.get(phone=phone)
+    code = user.code
+    account_sid = 'ACe3e60c6f3c8077fde0c26f8e7dc548f4'
+    auth_token = '611b8813909683464d334379dfe3faf3'
+    client = Client(account_sid, auth_token)
+
+    message = client.messages \
+        .create(
+        body=f'here is your code : {code}',
+        from_='+18562494313',
+        to = phone
+    )
+    print(message.sid)
+
 
 class UserService(generics.ModelService):
     queryset = CustomUser.objects.all().order_by('-date_joined')
@@ -50,13 +67,12 @@ class LoginService(generics.ModelService, TokenObtainPairView):
 
             response = auth_pb2.CheckUserResponse()
             phone = request.phone
-
             try:
                 user = CustomUser.objects.get(phone=phone)
                 token = generate_token(user)
                 response.status == 0
                 response.token = token
-
+                send_sms(phone)
                 return response
             except CustomUser.DoesNotExist:
                  response.status == 0
@@ -65,7 +81,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
                  response.token = newtoken
                  pm = 'your phone number has submited'
                  return response, pm
-
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
 
@@ -81,7 +96,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             if valid:
                 token = generate_token(user)
                 response.token = token
-
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
             print(response.status)
@@ -104,7 +118,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             if request.code == str(code):
                 response.status == 0
                 return response
-
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
             print(response.status)
@@ -168,5 +181,4 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             return response
         else:
             response.status = grpc.StatusCode.UNAUTHENTICATED
-
         return response
