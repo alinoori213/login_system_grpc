@@ -42,8 +42,8 @@ def generate_token(user):
 def send_sms(phone):
     user = CustomUser.objects.get(phone=phone)
     code = user.code
-    account_sid = 'ACe3e60c6f3c8077fde0c26f8e7dc548f4'
-    auth_token = '611b8813909683464d334379dfe3faf3'
+    account_sid = ''
+    auth_token = ''
     client = Client(account_sid, auth_token)
 
     message = client.messages \
