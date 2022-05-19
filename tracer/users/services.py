@@ -59,10 +59,8 @@ class LoginService(generics.ModelService, TokenObtainPairView):
 
                 return response
             except CustomUser.DoesNotExist:
-                 print('hello')
                  response.status == 0
                  user = CustomUser.objects.create(phone=phone)
-                 print(user)
                  newtoken = generate_token(user)
                  response.token = newtoken
                  pm = 'your phone number has submited'
@@ -142,9 +140,7 @@ class LoginService(generics.ModelService, TokenObtainPairView):
         token = jwt.decode(token, JWT_SECRET, algorithms='HS256')
         user_code = token['user_info']['user_code']
         code = request.code
-
         if code == str(user_code):
-
             return response
 
     def ResetPasswordCheck(self, request, context):
@@ -160,7 +156,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
         response.message = message
         response.email = reformed_email
         response.token = token
-
         return response
 
     def ResetPasswordConfirm(self, request, context):
