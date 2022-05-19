@@ -12,10 +12,26 @@ import jwt
 from rest_framework_simplejwt.views import TokenObtainPairView
 import ryca_django_grpc.generics as generics
 from django.core.mail import send_mail
+from codes.models import Code
 from .serializers import UserProtoSerializer, RegisterSerializer, RegistrationSerializer, CodeSerializer
 from django.contrib.auth import authenticate, login
 import os
+import random
 from twilio.rest import Client
+
+
+def generate_sms_code(user):
+    number_list = [x for x in range(10)]
+    code_items = []
+    for i in range(5):
+        num = random.choice(number_list)
+        code_items.append(num)
+
+    code_string = "".join(str(item) for item in code_items)
+    code = Code.objects.get(user=user)
+    code.number = code_string
+    code.save()
+    return code.number
 
 
 def send_forgot_mail(phone):
@@ -71,8 +87,10 @@ class LoginService(generics.ModelService, TokenObtainPairView):
                 user = CustomUser.objects.get(phone=phone)
                 token = generate_token(user)
                 response.status == 0
-                response.token = token
+                generate_sms_code(user)
+                print(generate_sms_code(user))
                 send_sms(phone)
+                response.token = token
                 return response
             except CustomUser.DoesNotExist:
                  response.status == 0
@@ -80,10 +98,11 @@ class LoginService(generics.ModelService, TokenObtainPairView):
                  newtoken = generate_token(user)
                  response.token = newtoken
                  pm = 'your phone number has submited'
+                 generate_sms_code(user)
+                 send_sms(phone)
                  return response, pm
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
-
 
     def Login(self, request, context):
         try:
@@ -114,6 +133,7 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             token = request.token
             token = jwt.decode(token, JWT_SECRET, algorithms='HS256')
             code = str(token['user_info']['user_code'])
+            print(code)
             print(token['user_info']['phone'])
             if request.code == str(code):
                 response.status == 0
