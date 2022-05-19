@@ -53,7 +53,7 @@ message CheckUserResponse {
 }
 
 message SignupCodeRequest {
-  string phone = 1;
+  string token = 1;
   string code = 2;
 
 }

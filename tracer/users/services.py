@@ -35,25 +35,32 @@ class LoginService(generics.ModelService, TokenObtainPairView):
     # permission_classes = (IsAuthenticated,)
 
     def CheckUser(self, request, context):
-        try:
-            from google.protobuf import message
+
 
             response = auth_pb2.CheckUserResponse()
             phone = request.phone
-            user = CustomUser.objects.get(phone=phone)
-            print(user.pk)
-            if user:
+
+            try:
+                user = CustomUser.objects.get(phone=phone)
                 token = generate_token(user)
+                # CustomUser.objects.create(phone='+989123456789', password='')
                 response.status == 0
                 response.token = token
-                # self.LoginCode(request)
+
                 return response
+            except CustomUser.DoesNotExist:
+                 print('hello')
+                 response.status == 0
+                 user = CustomUser.objects.create(phone=phone)
+                 print(user)
+                 newtoken = generate_token(user)
+                 response.token = newtoken
+                 pm = 'your phone number has submited'
+                 return response, pm
+
             else:
-                # self.Signup(request)
                 response.status = grpc.StatusCode.UNAUTHENTICATED
 
-        except Exception as e:
-            return grpc.StatusCode.UNAUTHENTICATED
 
     def Login(self, request, context):
         try:
@@ -67,7 +74,6 @@ class LoginService(generics.ModelService, TokenObtainPairView):
                 token = generate_token(user)
                 response.token = token
 
-                # user = authenticate(phone, password)
             else:
                 response.status = grpc.StatusCode.UNAUTHENTICATED
             print(response.status)
@@ -85,23 +91,11 @@ class LoginService(generics.ModelService, TokenObtainPairView):
             print(request)
             token = request.token
             token = jwt.decode(token, JWT_SECRET, algorithms='HS256')
-            code = token['user_info']['user_code']
+            code = str(token['user_info']['user_code'])
             print(token['user_info']['phone'])
-            # user = CustomUser.objects.get(phone=phone)
-            # print(user)
-
-            # password = user.password
-            # print(get_h)
-            # user1 = authenticate(phone, password)
-            # print(user1)
-            # print(password)
-            # print(HttpRequest.META)
             if request.code == str(code):
-                # message_str = 'logged in'
-
                 response.status == 0
                 return response
-
                 # login(request, token)
 
             else:
@@ -132,14 +126,20 @@ class LoginService(generics.ModelService, TokenObtainPairView):
         except Exception as e:
             return grpc.StatusCode.UNAUTHENTICATED
 
-    # def SignupCode(self, request, context):
-    #     try:
-    #         from  google.protobuf import  message
-    #         response = auth_pb2.SignupCodeResponse()
-    #
-    #
-    # def ResetPasswordCheck(self, request, context):
-    #     pass
-    #
-    # def ResetPasswordConfirm(self, request, context):
-    #     pass
+    def SignupCode(self, request, context):
+
+        response = auth_pb2.SignupCodeResponse()
+        token = request.token
+        token = jwt.decode(token, JWT_SECRET, algorithms='HS256')
+        user_code = token['user_info']['user_code']
+        code = request.code
+
+        if code == str(user_code):
+
+            return response
+
+    def ResetPasswordCheck(self, request, context):
+        pass
+
+    def ResetPasswordConfirm(self, request, context):
+        pass
