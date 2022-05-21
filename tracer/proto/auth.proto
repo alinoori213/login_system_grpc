@@ -25,6 +25,8 @@ message SignupRequest {
   string phone = 1;
   string password = 2;
   string password2 = 3;
+  string email = 4;
+
 }
 
 message SignupResponse {
@@ -39,7 +41,7 @@ message LoginCodeRequest {
 }
 
 message LoginCodeResponse {
-  int32 status = 2;
+  int32 status = 1;
 }
 
 message CheckUserRequest {
@@ -78,6 +80,8 @@ message ResetPasswordCheckResponse {
 message ResetPasswordConfirmRequest{
     string token = 1;
     string code = 2;
+    string password = 3;
+    string password1 = 4;
 
 }
 
